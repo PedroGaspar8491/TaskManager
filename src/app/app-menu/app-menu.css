@@ -1,0 +1,46 @@
+input {
+  background-color: #e1e8e1;
+  width: 90%;
+  height: 40px;
+  border-style: none;
+  border-radius: 10px;
+  font-size: medium;
+  color: var(--main-background-color);
+  padding-left: 10px;
+}
+
+button {
+  background-color: var(--primary);
+  border-style: none;
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  color: var(--main-background-color);
+  font-size: 30px;
+  text-align: center;
+}
+
+.input-row {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.topic-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 20px;
+}
+
+.topic {
+  width: 100%;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.selected {
+  background-color: #e1e8e1;
+}

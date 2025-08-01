@@ -1,0 +1,8 @@
+.app-layout {
+  content: "";
+  display: flex;
+  clear: both;
+  width: 100vw;
+  height: 100vh;
+  padding: 0%;
+}
