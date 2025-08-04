@@ -1,1 +1,32 @@
-<p>{{ this.selectedTopic }}</p>
+@if (selectedTopic.id != -1) {
+<h1>{{ this.selectedTopic.name }}</h1>
+<div class="checklist">
+  @if (selectedTopic.checkList.length != 0) { @for (item of
+  this.selectedTopic.checkList; track $index) {
+  <div class="checklist-item">
+    {{ item.text }}
+    @if (item.done) {
+    <input type="checkbox" name="" id="" checked />
+    } @else {
+    <input type="checkbox" name="" id="" />
+    }
+  </div>
+  } } @else {
+  <h3>No Items In Checklist</h3>
+  }
+  <input
+    type="text"
+    placeholder="Add Item"
+    #addItem
+    (keydown.enter)="addCheckListItem(selectedTopic.id, addItem.value)"
+  />
+</div>
+} @else {
+<h1>Add New Topic</h1>
+<input
+  type="text"
+  placeholder="Add Topic"
+  (keydown.enter)="addTopic(topic.value)"
+  #topic
+/>
+}

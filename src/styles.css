@@ -27,6 +27,13 @@ body {
 
 .content {
   width: 80%;
+  background-color: var(--menu-background-color);
+  margin: 40px;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 button {

@@ -1,13 +1,12 @@
 <div class="input-row">
   <input type="text" placeholder="Search Topics" #inp />
-  <button (click)="addTopic(inp.value)">+</button>
 </div>
 <div class="topic-list">
   @if ( this.topicList.length == 0 ){
   <p>No Topics</p>
   } @else { @for (topic of this.topicList; track $index){ @if (topic.id ==
   selectedTopic) {
-  <div class="selected topic">
+  <div class="selected topic" (click)="selectedTopic = -1; sendSelectedTopic()">
     <p>{{ topic.name }}</p>
   </div>
 
