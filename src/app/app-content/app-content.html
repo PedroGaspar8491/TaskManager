@@ -18,7 +18,9 @@
     type="text"
     placeholder="Add Item"
     #addItem
-    (keydown.enter)="addCheckListItem(selectedTopic.id, addItem.value)"
+    (keydown.enter)="
+      addCheckListItem(selectedTopic.id, addItem.value); addItem.value = ''
+    "
   />
 </div>
 } @else {

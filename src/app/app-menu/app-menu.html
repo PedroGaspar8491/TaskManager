@@ -1,6 +1,13 @@
-<div class="input-row">
-  <input type="text" placeholder="Search Topics" #inp />
-</div>
+<h1 class="title">TaskManager</h1>
+<h2 class="newTopic" onclick="">New Topic +</h2>
+<input
+  #add
+  type="text"
+  placeholder="Topic Name"
+  (keydown.enter)="addTopic(add.value); add.value = ''"
+/>
+<h2>Topics</h2>
+<input type="text" placeholder="Search Topics" #inp />
 <div class="topic-list">
   @if ( this.topicList.length == 0 ){
   <p>No Topics</p>

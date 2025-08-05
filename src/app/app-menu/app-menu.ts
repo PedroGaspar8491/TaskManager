@@ -26,4 +26,14 @@ export class AppMenu {
   sendSelectedTopic() {
     this.dataService.updateCurrentTopic(this.topicList.at(this.selectedTopic)!);
   }
+
+  addTopic(topicName: string) {
+    const newTopic: Topic = {
+      id: this.topicList.length,
+      name: topicName,
+      checkList: [],
+    };
+    this.dataService.addTopicToList(newTopic);
+    this.dataService.updateCurrentTopic(newTopic);
+  }
 }
