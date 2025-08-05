@@ -1,11 +1,18 @@
-<div *ngIf="selectedTopic?.id !== -1; else noTopic">
+<div class="content-container" *ngIf="selectedTopic?.id !== -1; else noTopic">
   <h1>{{ selectedTopic.name }}</h1>
+
+  <h2>
+    Checklist ({{ getDoneCount() }} / {{ selectedTopic.checkList.length }})
+  </h2>
 
   <div class="checklist">
     <ng-container
       *ngIf="selectedTopic.checkList.length > 0; else emptyChecklist"
     >
-      <div class="checklist-item" *ngFor="let item of selectedTopic.checkList">
+      <div
+        class="checklist-item"
+        *ngFor="let item of selectedTopic.checkList; trackBy: trackByItem"
+      >
         <span>{{ item.text }}</span>
         <input
           type="checkbox"
@@ -16,18 +23,17 @@
     </ng-container>
 
     <ng-template #emptyChecklist>
-      <h3>No Items In Checklist</h3>
+      <h2>No Items In Checklist</h2>
     </ng-template>
-
-    <input
-      type="text"
-      placeholder="Add Item"
-      #addItem
-      (keydown.enter)="
-        addCheckListItem(selectedTopic.id, addItem.value); addItem.value = ''
-      "
-    />
   </div>
+  <input
+    type="text"
+    placeholder="Add Item"
+    #addItem
+    (keydown.enter)="
+      addCheckListItem(selectedTopic.id, addItem.value); addItem.value = ''
+    "
+  />
 </div>
 
 <ng-template #noTopic>

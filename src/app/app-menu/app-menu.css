@@ -1,6 +1,6 @@
 input {
   background-color: #e1e8e1;
-  width: 100%;
+  width: 90%;
   height: 40px;
   border-style: none;
   border-radius: 10px;
@@ -36,6 +36,8 @@ button {
   flex-direction: column;
   gap: 15px;
   padding: 10px;
+  scrollbar-width: 10px;
+  scrollbar-color: #c0c0c0 transparent;
 }
 
 .topic-list::-webkit-scrollbar {
@@ -51,17 +53,18 @@ button {
   border-radius: 5px;
 }
 
-.topic-list {
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #c0c0c0 transparent;
-}
-
 .topic {
-  width: 100%;
+  width: 90%;
   padding: 5px;
   cursor: pointer;
   border-radius: 10px;
   transition: background-color 0.2s;
+  font-size: 20px;
+  color: #fff;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .topic:hover {

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Topic } from '../topic';
 import { DataService } from '../data-service';
 import { CommonModule } from '@angular/common';
+import { TopicItem } from '../topic-item';
 
 @Component({
   selector: 'app-content',
@@ -24,21 +25,32 @@ export class AppContent {
       this.selectedTopic = value;
     });
   }
-  addTopic(topicName: string) {
+  addTopic(text: string) {
+    if (!text.trim()) return;
+
     const newTopic: Topic = {
       id: this.topicList.length,
-      name: topicName,
+      name: text,
       checkList: [],
     };
     this.dataService.addTopicToList(newTopic);
     this.dataService.updateCurrentTopic(newTopic);
   }
 
-  addCheckListItem(topicID: number, itemName: string) {
-    this.dataService.addChecklistItem(topicID, itemName);
+  addCheckListItem(topicId: number, text: string) {
+    if (!text.trim()) return;
+    this.dataService.addChecklistItem(topicId, text.trim());
   }
 
   toggleItem(topicId: number, itemId: number) {
     this.dataService.toggleChecklistItem(topicId, itemId);
+  }
+
+  trackByItem(index: number, item: TopicItem): number {
+    return item.id;
+  }
+
+  getDoneCount(): number {
+    return this.selectedTopic?.checkList.filter((i) => i.done).length || 0;
   }
 }

@@ -9,15 +9,16 @@
 />
 
 <h2 (click)="toggleTopicsList()">Topics</h2>
+<input type="text" placeholder="Search Topics" [(ngModel)]="searchTerm" />
 <div class="topic-list" *ngIf="showTopics">
-  <input type="text" placeholder="Search Topics" [(ngModel)]="searchTerm" />
   <p *ngIf="filteredTopics.length === 0">No Topics</p>
   <div
     *ngFor="let topic of filteredTopics"
     class="topic"
     [class.selected]="topic.id === selectedTopic"
     (click)="selectTopic(topic.id)"
+    [title]="topic.name"
   >
-    <p>{{ topic.name }}</p>
+    {{ topic.name }}
   </div>
 </div>
