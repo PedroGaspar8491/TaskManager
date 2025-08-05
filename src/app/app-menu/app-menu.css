@@ -27,12 +27,33 @@ button {
 }
 
 .topic-list {
-  height: 100%;
+  flex: 1;
+  min-height: 0;
+  max-height: max-content;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  font-size: 20px;
-  color: #fff;
+  gap: 15px;
+  padding: 10px;
+}
+
+.topic-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.topic-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.topic-list::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 5px;
+}
+
+.topic-list {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #c0c0c0 transparent;
 }
 
 .topic {
@@ -40,11 +61,16 @@ button {
   padding: 5px;
   cursor: pointer;
   border-radius: 10px;
+  transition: background-color 0.2s;
 }
 
-.selected {
+.topic:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.topic.selected {
   background-color: #e1e8e1;
-  color: #054c23 !important;
+  color: #054c23;
 }
 
 h1,

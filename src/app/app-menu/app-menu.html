@@ -1,25 +1,23 @@
 <h1 class="title">TaskManager</h1>
-<h2 class="newTopic" onclick="">New Topic +</h2>
-<input
-  #add
-  type="text"
-  placeholder="Topic Name"
-  (keydown.enter)="addTopic(add.value); add.value = ''"
-/>
-<h2>Topics</h2>
-<input type="text" placeholder="Search Topics" #inp />
-<div class="topic-list">
-  @if ( this.topicList.length == 0 ){
-  <p>No Topics</p>
-  } @else { @for (topic of this.topicList; track $index){ @if (topic.id ==
-  selectedTopic) {
-  <div class="selected topic" (click)="selectedTopic = -1; sendSelectedTopic()">
-    <p>{{ topic.name }}</p>
-  </div>
 
-  } @else {
-  <div class="topic" (click)="selectedTopic = topic.id; sendSelectedTopic()">
+<h2 style="cursor: pointer" (click)="toggleNewTopic()">New Topic +</h2>
+<input
+  *ngIf="showNewTopicInput"
+  [(ngModel)]="newTopic"
+  (keydown.enter)="addTopic(newTopic); newTopic = ''"
+  placeholder="Topic Name"
+/>
+
+<h2 (click)="toggleTopicsList()">Topics</h2>
+<div class="topic-list" *ngIf="showTopics">
+  <input type="text" placeholder="Search Topics" [(ngModel)]="searchTerm" />
+  <p *ngIf="filteredTopics.length === 0">No Topics</p>
+  <div
+    *ngFor="let topic of filteredTopics"
+    class="topic"
+    [class.selected]="topic.id === selectedTopic"
+    (click)="selectTopic(topic.id)"
+  >
     <p>{{ topic.name }}</p>
   </div>
-  } } }
 </div>

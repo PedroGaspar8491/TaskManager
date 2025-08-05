@@ -1,34 +1,41 @@
-@if (selectedTopic.id != -1) {
-<h1>{{ this.selectedTopic.name }}</h1>
-<div class="checklist">
-  @if (selectedTopic.checkList.length != 0) { @for (item of
-  this.selectedTopic.checkList; track $index) {
-  <div class="checklist-item">
-    {{ item.text }}
-    @if (item.done) {
-    <input type="checkbox" name="" id="" checked />
-    } @else {
-    <input type="checkbox" name="" id="" />
-    }
+<div *ngIf="selectedTopic?.id !== -1; else noTopic">
+  <h1>{{ selectedTopic.name }}</h1>
+
+  <div class="checklist">
+    <ng-container
+      *ngIf="selectedTopic.checkList.length > 0; else emptyChecklist"
+    >
+      <div class="checklist-item" *ngFor="let item of selectedTopic.checkList">
+        <span>{{ item.text }}</span>
+        <input
+          type="checkbox"
+          [checked]="item.done"
+          (change)="toggleItem(selectedTopic.id, item.id)"
+        />
+      </div>
+    </ng-container>
+
+    <ng-template #emptyChecklist>
+      <h3>No Items In Checklist</h3>
+    </ng-template>
+
+    <input
+      type="text"
+      placeholder="Add Item"
+      #addItem
+      (keydown.enter)="
+        addCheckListItem(selectedTopic.id, addItem.value); addItem.value = ''
+      "
+    />
   </div>
-  } } @else {
-  <h3>No Items In Checklist</h3>
-  }
+</div>
+
+<ng-template #noTopic>
+  <h1>Add New Topic</h1>
   <input
     type="text"
-    placeholder="Add Item"
-    #addItem
-    (keydown.enter)="
-      addCheckListItem(selectedTopic.id, addItem.value); addItem.value = ''
-    "
+    placeholder="Add Topic"
+    #topic
+    (keydown.enter)="addTopic(topic.value); topic.value = ''"
   />
-</div>
-} @else {
-<h1>Add New Topic</h1>
-<input
-  type="text"
-  placeholder="Add Topic"
-  (keydown.enter)="addTopic(topic.value)"
-  #topic
-/>
-}
+</ng-template>

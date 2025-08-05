@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Topic } from '../topic';
 import { DataService } from '../data-service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-content',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './app-content.html',
   styleUrl: './app-content.css',
 })
@@ -35,5 +36,9 @@ export class AppContent {
 
   addCheckListItem(topicID: number, itemName: string) {
     this.dataService.addChecklistItem(topicID, itemName);
+  }
+
+  toggleItem(topicId: number, itemId: number) {
+    this.dataService.toggleChecklistItem(topicId, itemId);
   }
 }

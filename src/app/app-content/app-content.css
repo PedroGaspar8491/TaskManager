@@ -16,6 +16,7 @@
   padding: 10px 15px;
   border-radius: 6px;
   border: 1px solid #ffffff22;
+  gap: 10px;
 }
 
 .checklist-item input[type="checkbox"] {
