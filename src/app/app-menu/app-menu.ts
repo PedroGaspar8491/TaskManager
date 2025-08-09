@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Topic } from '../topic';
 import { DataService } from '../data-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { isEmpty } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -22,8 +21,7 @@ export class AppMenu {
 
   searchTerm: string = '';
 
-  @Output() topicEvent = new EventEmitter<Topic>();
-
+  
   constructor(private dataService: DataService) {
     this.dataService.topicList.subscribe((value) => {
       this.topicList = value;
@@ -42,7 +40,11 @@ export class AppMenu {
 
   selectTopic(id: number): void {
     this.selectedTopic = this.selectedTopic === id ? -1 : id;
-    this.sendSelectedTopic();
+    if (this.selectedTopic === -1) {
+      this.dataService.updateCurrentTopic({ id: -1, name: '', checkList: [] });
+    } else {
+      this.sendSelectedTopic();
+    }
   }
 
   get filteredTopics() {
@@ -56,25 +58,10 @@ export class AppMenu {
   }
 
   addTopic(name: string): void {
-    if (name != '') {
-      const trimmedName = name.trim();
-      if (!trimmedName) return;
-
-      const newId = this.topicList.length
-        ? Math.max(...this.topicList.map((t) => t.id)) + 1
-        : 1;
-
-      const newTopic: Topic = {
-        id: newId,
-        name: trimmedName,
-        checkList: [], // ✅ Initialize empty checklist
-      };
-
-      this.dataService.addTopicToList(newTopic);
-      this.dataService.updateCurrentTopic(newTopic);
-
-      this.newTopic = '';
-    }
+    const trimmedName = name.trim();
+    if (!trimmedName) return;
+    this.dataService.addTopic(trimmedName);
+    this.newTopic = '';
   }
 
   toggleNewTopic(): void {

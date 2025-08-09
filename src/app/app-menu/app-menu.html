@@ -5,11 +5,12 @@
   *ngIf="showNewTopicInput"
   [(ngModel)]="newTopic"
   (keydown.enter)="addTopic(newTopic); newTopic = ''"
+  aria-label="New topic name"
   placeholder="Topic Name"
 />
 
 <h2 (click)="toggleTopicsList()">Topics</h2>
-<input type="text" placeholder="Search Topics" [(ngModel)]="searchTerm" />
+<input type="text" placeholder="Search Topics" [(ngModel)]="searchTerm" aria-label="Search topics" />
 <div class="topic-list" *ngIf="showTopics">
   <p *ngIf="filteredTopics.length === 0">No Topics</p>
   <div

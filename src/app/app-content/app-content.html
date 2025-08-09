@@ -18,6 +18,7 @@
           type="checkbox"
           [checked]="item.done"
           (change)="toggleItem(selectedTopic.id, item.id)"
+          [attr.aria-label]="'Toggle ' + item.text"
         />
       </div>
     </ng-container>
@@ -29,6 +30,7 @@
   <input
     type="text"
     placeholder="Add Item"
+    aria-label="Add checklist item"
     #addItem
     (keydown.enter)="
       addCheckListItem(selectedTopic.id, addItem.value); addItem.value = ''
@@ -41,6 +43,7 @@
   <input
     type="text"
     placeholder="Add Topic"
+    aria-label="Add new topic"
     #topic
     (keydown.enter)="addTopic(topic.value); topic.value = ''"
   />

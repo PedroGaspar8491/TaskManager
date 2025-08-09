@@ -23,7 +23,24 @@ export class DataService {
   }
 
   addTopicToList(data: Topic) {
-    this._topicList.value.push(data);
+    const updated = [...this._topicList.value, data];
+    this._topicList.next(updated);
+  }
+
+  addTopic(name: string): Topic {
+    const trimmed = name.trim();
+    if (!trimmed) {
+      throw new Error('Topic name cannot be empty');
+    }
+
+    const topics = this._topicList.getValue();
+    const newId = topics.length ? Math.max(...topics.map((t) => t.id)) + 1 : 1;
+    const newTopic: Topic = { id: newId, name: trimmed, checkList: [] };
+
+    this._topicList.next([...topics, newTopic]);
+    this._currentTopic.next(newTopic);
+
+    return newTopic;
   }
 
   addChecklistItem(topicID: number, itemName: string): void {

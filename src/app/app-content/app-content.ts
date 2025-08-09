@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Topic } from '../topic';
 import { DataService } from '../data-service';
 import { CommonModule } from '@angular/common';
@@ -26,15 +26,9 @@ export class AppContent {
     });
   }
   addTopic(text: string) {
-    if (!text.trim()) return;
-
-    const newTopic: Topic = {
-      id: this.topicList.length,
-      name: text,
-      checkList: [],
-    };
-    this.dataService.addTopicToList(newTopic);
-    this.dataService.updateCurrentTopic(newTopic);
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    this.dataService.addTopic(trimmed);
   }
 
   addCheckListItem(topicId: number, text: string) {
