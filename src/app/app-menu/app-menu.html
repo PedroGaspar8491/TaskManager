@@ -1,25 +1,31 @@
 <h1 class="title">TaskManager</h1>
 
 <h2 style="cursor: pointer" (click)="toggleNewTopic()">New Topic +</h2>
-<input
-  *ngIf="showNewTopicInput"
-  [(ngModel)]="newTopic"
-  (keydown.enter)="addTopic(newTopic); newTopic = ''"
-  aria-label="New topic name"
-  placeholder="Topic Name"
-/>
+@if (showNewTopicInput) {
+  <input
+    [(ngModel)]="newTopic"
+    (keydown.enter)="addTopic(newTopic); newTopic = ''"
+    aria-label="New topic name"
+    placeholder="Topic Name"
+  />
+}
 
 <h2 (click)="toggleTopicsList()">Topics</h2>
 <input type="text" placeholder="Search Topics" [(ngModel)]="searchTerm" aria-label="Search topics" />
-<div class="topic-list" *ngIf="showTopics">
-  <p *ngIf="filteredTopics.length === 0">No Topics</p>
-  <div
-    *ngFor="let topic of filteredTopics"
-    class="topic"
-    [class.selected]="topic.id === selectedTopic"
-    (click)="selectTopic(topic.id)"
-    [title]="topic.name"
-  >
-    {{ topic.name }}
+@if (showTopics) {
+  <div class="topic-list">
+    @if (filteredTopics.length === 0) {
+      <p>No Topics</p>
+    }
+    @for (topic of filteredTopics; track topic.id) {
+      <div
+        class="topic"
+        [class.selected]="topic.id === selectedTopic"
+        (click)="selectTopic(topic.id)"
+        [title]="topic.name"
+      >
+        {{ topic.name }}
+      </div>
+    }
   </div>
-</div>
+}

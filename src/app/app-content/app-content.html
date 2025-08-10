@@ -1,4 +1,5 @@
-<div class="content-container" *ngIf="selectedTopic?.id !== -1; else noTopic">
+@if (selectedTopic.id !== -1) {
+<div class="content-container">
   <h1>{{ selectedTopic.name }}</h1>
 
   <h2>
@@ -6,26 +7,21 @@
   </h2>
 
   <div class="checklist">
-    <ng-container
-      *ngIf="selectedTopic.checkList.length > 0; else emptyChecklist"
-    >
-      <div
-        class="checklist-item"
-        *ngFor="let item of selectedTopic.checkList; trackBy: trackByItem"
-      >
-        <span>{{ item.text }}</span>
-        <input
-          type="checkbox"
-          [checked]="item.done"
-          (change)="toggleItem(selectedTopic.id, item.id)"
-          [attr.aria-label]="'Toggle ' + item.text"
-        />
-      </div>
-    </ng-container>
-
-    <ng-template #emptyChecklist>
-      <h2>No Items In Checklist</h2>
-    </ng-template>
+    @if (selectedTopic.checkList.length > 0) {
+    @for (item of selectedTopic.checkList; track item.id) {
+    <div class="checklist-item">
+    <span>{{ item.text }}</span>
+    <input
+    type="checkbox"
+    [checked]="item.done"
+    (change)="toggleItem(selectedTopic.id, item.id)"
+    [attr.aria-label]="'Toggle ' + item.text"
+    />
+    </div>
+    }
+    } @else {
+    <h2>No Items In Checklist</h2>
+    }
   </div>
   <input
     type="text"
@@ -37,14 +33,13 @@
     "
   />
 </div>
-
-<ng-template #noTopic>
-  <h1>Add New Topic</h1>
-  <input
-    type="text"
-    placeholder="Add Topic"
-    aria-label="Add new topic"
-    #topic
-    (keydown.enter)="addTopic(topic.value); topic.value = ''"
-  />
-</ng-template>
+} @else {
+<h1>Add New Topic</h1>
+<input
+  type="text"
+  placeholder="Add Topic"
+  aria-label="Add new topic"
+  #topic
+  (keydown.enter)="addTopic(topic.value); topic.value = ''"
+/>
+}

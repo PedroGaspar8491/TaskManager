@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Topic } from './topic';
-import { TopicItem } from './topic-item';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +44,6 @@ export class DataService {
         }
       }
     } catch {
-      // this can happen in tests or if localStorage is not available
       console.warn(
         'Failed to load initial state from storage, using defaults.'
       );
@@ -66,7 +64,7 @@ export class DataService {
         JSON.stringify(this._currentTopic.value)
       );
     } catch {
-      // ignore quota or serialization errors in tests
+      console.warn('Failed to persist state to storage.');
     }
   }
 

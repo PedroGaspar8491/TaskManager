@@ -8,6 +8,9 @@ describe('DataService', () => {
   let service: DataService;
 
   beforeEach(() => {
+    // Ensure clean persisted state between tests
+    try { localStorage.clear(); } catch {}
+
     TestBed.configureTestingModule({
       providers: [provideZonelessChangeDetection(), DataService],
     });
