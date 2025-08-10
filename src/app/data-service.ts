@@ -18,13 +18,67 @@ export class DataService {
   currentTopic = this._currentTopic.asObservable();
   topicList = this._topicList.asObservable();
 
+  private readonly storage: Storage | null =
+    typeof localStorage !== 'undefined' ? localStorage : null;
+  private readonly STORAGE_KEYS = {
+    list: 'tm.topicList',
+    current: 'tm.currentTopic',
+  };
+
+  constructor() {
+    // hydrate from storage if available
+    try {
+      const listRaw = this.storage?.getItem(this.STORAGE_KEYS.list);
+      const currentRaw = this.storage?.getItem(this.STORAGE_KEYS.current);
+
+      if (listRaw) {
+        const list = JSON.parse(listRaw) as Topic[];
+        if (Array.isArray(list)) {
+          this._topicList.next(list);
+        }
+      }
+
+      if (currentRaw) {
+        const current = JSON.parse(currentRaw) as Topic;
+        if (current && typeof current.id === 'number') {
+          this._currentTopic.next(current);
+        }
+      }
+    } catch {
+      // this can happen in tests or if localStorage is not available
+      console.warn(
+        'Failed to load initial state from storage, using defaults.'
+      );
+      this._currentTopic.next({ id: -1, name: '', checkList: [] });
+      this._topicList.next([]);
+    }
+  }
+
+  private persistState(): void {
+    if (!this.storage) return;
+    try {
+      this.storage.setItem(
+        this.STORAGE_KEYS.list,
+        JSON.stringify(this._topicList.value)
+      );
+      this.storage.setItem(
+        this.STORAGE_KEYS.current,
+        JSON.stringify(this._currentTopic.value)
+      );
+    } catch {
+      // ignore quota or serialization errors in tests
+    }
+  }
+
   updateCurrentTopic(data: Topic) {
     this._currentTopic.next(data);
+    this.persistState();
   }
 
   addTopicToList(data: Topic) {
     const updated = [...this._topicList.value, data];
     this._topicList.next(updated);
+    this.persistState();
   }
 
   addTopic(name: string): Topic {
@@ -39,6 +93,7 @@ export class DataService {
 
     this._topicList.next([...topics, newTopic]);
     this._currentTopic.next(newTopic);
+    this.persistState();
 
     return newTopic;
   }
@@ -67,6 +122,7 @@ export class DataService {
     if (this._currentTopic.getValue().id === topicID) {
       this._currentTopic.next(updatedTopic);
     }
+    this.persistState();
   }
 
   toggleChecklistItem(topicId: number, itemId: number): void {
@@ -90,5 +146,6 @@ export class DataService {
     if (this._currentTopic.getValue().id === topicId) {
       this._currentTopic.next(updatedTopics[topicIndex]);
     }
+    this.persistState();
   }
 }

@@ -7,7 +7,7 @@
 .checklist {
   flex: 1;
   min-height: 0;
-  max-height: 600px;
+  max-height: 250px;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: #ffffff22;
