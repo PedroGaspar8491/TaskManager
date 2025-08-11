@@ -1,13 +1,18 @@
 :root {
   --main-background-color: #444644;
   --menu-background-color: #538051;
-  --primary: #3be038;
+  --primary: #03a50089;
   --text--color: #fff;
 }
 
 * {
   padding: 0%;
   margin: 0%;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 body {
   background-color: var(--main-background-color);
@@ -16,7 +21,7 @@ body {
 
 .menu {
   background-color: var(--menu-background-color);
-  float: left;
+  float: none;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -36,12 +41,89 @@ body {
   gap: 40px;
 }
 
-button {
-  background-color: var(--primary);
+input[type="text"] {
+  height: 40px;
   border-style: none;
-  height: 100px;
-  width: 100px;
-  border-radius: 100%;
+  border-radius: 10px;
+  font-size: medium;
   color: var(--main-background-color);
-  font-size: large;
+  padding-left: 10px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border: 1px solid var(--primary);
+}
+
+@media (max-width: 900px) {
+  .app-layout {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  .menu {
+    width: 102%;
+    padding: 16px;
+    margin: 0px;
+  }
+  .content {
+    width: 98%;
+    margin: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .menu {
+    gap: 12px;
+    padding: 12px;
+  }
+  .content {
+    margin: 12px;
+    padding: 16px;
+    gap: 24px;
+  }
+
+  .topic {
+    font-size: 16px;
+  }
+  .topic button {
+    height: 28px;
+    width: 28px;
+    font-size: 16px;
+  }
+
+  .content .checklist {
+    max-height: 40vh;
+    padding: 12px;
+    gap: 10px;
+  }
+  .content .checklist-item {
+    padding: 8px 10px;
+  }
+
+  .content input[type="text"] {
+    font-size: 0.95rem;
+  }
+  .content .landing-actions {
+    flex-direction: column;
+  }
+  .content .landing-actions button {
+    width: 100%;
+    height: 44px;
+    border-radius: 8px;
+  }
+}
+
+@media (max-height: 700px) {
+  .content .checklist {
+    max-height: 45vh;
+  }
+}
+@media (max-height: 500px) {
+  .content .checklist {
+    max-height: 35vh;
+  }
+  .menu {
+    gap: 10px;
+  }
 }

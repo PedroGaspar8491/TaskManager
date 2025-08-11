@@ -7,19 +7,24 @@
   </h2>
 
   <div class="checklist">
-    @if (selectedTopic.checkList.length > 0) {
-    @for (item of selectedTopic.checkList; track item.id) {
+    @if (selectedTopic.checkList.length > 0) { @for (item of
+    selectedTopic.checkList; track item.id) {
     <div class="checklist-item">
-    <span>{{ item.text }}</span>
-    <input
-    type="checkbox"
-    [checked]="item.done"
-    (change)="toggleItem(selectedTopic.id, item.id)"
-    [attr.aria-label]="'Toggle ' + item.text"
-    />
+      <span>{{ item.text }}</span>
+      <input
+        type="checkbox"
+        [checked]="item.done"
+        (change)="toggleItem(selectedTopic.id, item.id)"
+        [attr.aria-label]="'Toggle ' + item.text"
+      />
+      <button
+        type="button"
+        (click)="removeChecklistItem(selectedTopic.id, item.id)"
+      >
+        ✕
+      </button>
     </div>
-    }
-    } @else {
+    } } @else {
     <h2>No Items In Checklist</h2>
     }
   </div>
@@ -34,12 +39,22 @@
   />
 </div>
 } @else {
-<h1>Add New Topic</h1>
-<input
-  type="text"
-  placeholder="Add Topic"
-  aria-label="Add new topic"
-  #topic
-  (keydown.enter)="addTopic(topic.value); topic.value = ''"
-/>
+<div class="landing">
+  <div class="landing-card">
+    <h1>Welcome to TaskManager</h1>
+    <p>Organize your work with Topics and their checklists.</p>
+
+    <div class="landing-actions">
+      <input
+        type="text"
+        placeholder="Create your first Topic"
+        aria-label="Add new topic"
+        #topic
+        (keydown.enter)="addTopic(topic.value); topic.value = ''"
+      />
+    </div>
+
+    <small>Tip: Use the menu on the left to manage topics.</small>
+  </div>
+</div>
 }

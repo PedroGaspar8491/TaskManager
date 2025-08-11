@@ -45,6 +45,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-height: 40px;
 }
 
 .checklist-item input[type="checkbox"] {
@@ -81,4 +82,69 @@ h2 {
   font-style: italic;
   color: #bbb;
   text-align: center;
+}
+
+.checklist-item button {
+  background-color: transparent;
+  border: none;
+  height: 40px;
+  width: 40px;
+  color: var(--main-background-color);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checklist-item button:hover {
+  opacity: 0.9;
+}
+
+.landing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+}
+
+.landing-card {
+  background-color: #ffffff11;
+  border: 1px solid #ffffff22;
+  border-radius: 10px;
+  padding: 30px;
+  width: min(800px, 100%);
+  min-height: min(200px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: var(--text--color);
+}
+
+.landing-card h1 {
+  color: #054c23;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.landing-card p {
+  color: #e1e8e1;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.landing-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.landing-actions input[type="text"] {
+  flex: 1;
+}
+
+input[type="text"]::placeholder {
+  color: #ccc;
 }

@@ -71,4 +71,11 @@ export class AppMenu {
   toggleTopicsList(): void {
     this.showTopics = !this.showTopics;
   }
+
+  removeTopic(id: number): void {
+    this.dataService.removeTopic(id);
+    if (this.selectedTopic === id) {
+      this.selectedTopic = -1;
+    }
+  }
 }

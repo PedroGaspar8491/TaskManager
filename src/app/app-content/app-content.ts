@@ -40,6 +40,10 @@ export class AppContent {
     this.dataService.toggleChecklistItem(topicId, itemId);
   }
 
+  removeChecklistItem(topicId: number, itemId: number) {
+    this.dataService.removeChecklistItem(topicId, itemId);
+  }
+
   trackByItem(index: number, item: TopicItem): number {
     return item.id;
   }

@@ -2,30 +2,41 @@
 
 <h2 style="cursor: pointer" (click)="toggleNewTopic()">New Topic +</h2>
 @if (showNewTopicInput) {
-  <input
-    [(ngModel)]="newTopic"
-    (keydown.enter)="addTopic(newTopic); newTopic = ''"
-    aria-label="New topic name"
-    placeholder="Topic Name"
-  />
+<input
+  type="text"
+  [(ngModel)]="newTopic"
+  (keydown.enter)="addTopic(newTopic); newTopic = ''"
+  aria-label="New topic name"
+  placeholder="Topic Name"
+/>
 }
 
 <h2 (click)="toggleTopicsList()">Topics</h2>
-<input type="text" placeholder="Search Topics" [(ngModel)]="searchTerm" aria-label="Search topics" />
+<input
+  type="text"
+  placeholder="Search Topics"
+  [(ngModel)]="searchTerm"
+  aria-label="Search topics"
+/>
 @if (showTopics) {
-  <div class="topic-list">
-    @if (filteredTopics.length === 0) {
-      <p>No Topics</p>
-    }
-    @for (topic of filteredTopics; track topic.id) {
-      <div
-        class="topic"
-        [class.selected]="topic.id === selectedTopic"
-        (click)="selectTopic(topic.id)"
-        [title]="topic.name"
-      >
-        {{ topic.name }}
-      </div>
-    }
+<div class="topic-list">
+  @if (filteredTopics.length === 0) {
+  <p>No Topics Found</p>
+  } @for (topic of filteredTopics; track topic.id) {
+  <div
+    class="topic"
+    [class.selected]="topic.id === selectedTopic"
+    (click)="selectTopic(topic.id)"
+    [title]="topic.name"
+  >
+    {{ topic.name }}
+    <button
+      type="button"
+      (click)="$event.stopPropagation(); removeTopic(topic.id)"
+    >
+      ✕
+    </button>
   </div>
+  }
+</div>
 }

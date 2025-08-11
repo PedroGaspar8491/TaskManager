@@ -146,4 +146,39 @@ export class DataService {
     }
     this.persistState();
   }
+
+  removeChecklistItem(topicId: number, itemId: number): void {
+    const topics = this._topicList.getValue();
+    const topicIndex = topics.findIndex((t) => t.id === topicId);
+    if (topicIndex === -1) return;
+
+    const topic = topics[topicIndex];
+    const updatedChecklist = topic.checkList.filter((i) => i.id !== itemId);
+
+    if (updatedChecklist.length === topic.checkList.length) return; // no change
+
+    const updatedTopic: Topic = { ...topic, checkList: updatedChecklist };
+    const updatedTopics = [...topics];
+    updatedTopics[topicIndex] = updatedTopic;
+
+    this._topicList.next(updatedTopics);
+
+    if (this._currentTopic.getValue().id === topicId) {
+      this._currentTopic.next(updatedTopic);
+    }
+    this.persistState();
+  }
+
+  removeTopic(topicId: number): void {
+    const topics = this._topicList.getValue();
+    const updatedTopics = topics.filter((t) => t.id !== topicId);
+    if (updatedTopics.length === topics.length) return; // no change
+
+    this._topicList.next(updatedTopics);
+
+    if (this._currentTopic.getValue().id === topicId) {
+      this._currentTopic.next({ id: -1, name: '', checkList: [] });
+    }
+    this.persistState();
+  }
 }
