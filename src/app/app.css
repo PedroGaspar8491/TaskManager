@@ -3,4 +3,5 @@
   width: 100%;
   min-height: 100vh;
   padding: 0;
+  gap: 40px; /* spacing between menu and content; pairs with styles.css layout */
 }

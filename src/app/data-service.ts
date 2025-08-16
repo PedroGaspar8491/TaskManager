@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Topic } from './topic';
 
+const NO_SELECTION = -1;
+
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
   private _currentTopic = new BehaviorSubject<Topic>({
-    id: -1,
+    id: NO_SELECTION,
     name: '',
     checkList: [],
   });
@@ -47,7 +49,7 @@ export class DataService {
       console.warn(
         'Failed to load initial state from storage, using defaults.'
       );
-      this._currentTopic.next({ id: -1, name: '', checkList: [] });
+      this._currentTopic.next({ id: NO_SELECTION, name: '', checkList: [] });
       this._topicList.next([]);
     }
   }
@@ -73,12 +75,7 @@ export class DataService {
     this.persistState();
   }
 
-  addTopicToList(data: Topic) {
-    const updated = [...this._topicList.value, data];
-    this._topicList.next(updated);
-    this.persistState();
-  }
-
+  
   addTopic(name: string): Topic {
     const trimmed = name.trim();
     if (!trimmed) {
@@ -96,9 +93,9 @@ export class DataService {
     return newTopic;
   }
 
-  addChecklistItem(topicID: number, itemName: string): void {
+  addChecklistItem(topicId: number, itemName: string): void {
     const topics = this._topicList.getValue();
-    const topicIndex = topics.findIndex((t) => t.id === topicID);
+    const topicIndex = topics.findIndex((t) => t.id === topicId);
     if (topicIndex === -1) return;
 
     const topic = topics[topicIndex];
@@ -117,7 +114,7 @@ export class DataService {
 
     this._topicList.next(updatedTopics);
 
-    if (this._currentTopic.getValue().id === topicID) {
+    if (this._currentTopic.getValue().id === topicId) {
       this._currentTopic.next(updatedTopic);
     }
     this.persistState();
@@ -131,18 +128,21 @@ export class DataService {
 
     const topic = topics[topicIndex];
 
-    const itemIndex = topic.checkList.findIndex((item) => item.id === itemId);
-    if (itemIndex === -1) return;
+    const updatedChecklist = topic.checkList.map((item) =>
+      item.id === itemId ? { ...item, done: !item.done } : item
+    );
 
-    topic.checkList[itemIndex].done = !topic.checkList[itemIndex].done;
+    // If nothing changed (item not found), no-op
+    if (updatedChecklist === topic.checkList) return;
 
+    const updatedTopic = { ...topic, checkList: updatedChecklist };
     const updatedTopics = [...topics];
-    updatedTopics[topicIndex] = { ...topic };
+    updatedTopics[topicIndex] = updatedTopic;
 
     this._topicList.next(updatedTopics);
 
     if (this._currentTopic.getValue().id === topicId) {
-      this._currentTopic.next(updatedTopics[topicIndex]);
+      this._currentTopic.next(updatedTopic);
     }
     this.persistState();
   }
@@ -177,7 +177,7 @@ export class DataService {
     this._topicList.next(updatedTopics);
 
     if (this._currentTopic.getValue().id === topicId) {
-      this._currentTopic.next({ id: -1, name: '', checkList: [] });
+      this._currentTopic.next({ id: NO_SELECTION, name: '', checkList: [] });
     }
     this.persistState();
   }

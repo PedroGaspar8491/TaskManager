@@ -11,8 +11,9 @@ import { TopicItem } from '../topic-item';
   styleUrl: './app-content.css',
 })
 export class AppContent {
-  selectedTopic!: Topic;
+  selectedTopic: Topic = { id: -1, name: '', checkList: [] };
   topicList: Topic[] = [];
+  doneCount = 0;
 
   constructor(private dataService: DataService) {
     this.dataService.topicList.subscribe((value) => {
@@ -22,7 +23,8 @@ export class AppContent {
 
   ngOnInit() {
     this.dataService.currentTopic.subscribe((value) => {
-      this.selectedTopic = value;
+      this.selectedTopic = value ?? { id: -1, name: '', checkList: [] };
+      this.doneCount = this.selectedTopic.checkList.filter((i) => i.done).length;
     });
   }
   addTopic(text: string) {

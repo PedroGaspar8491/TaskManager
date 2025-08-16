@@ -1,17 +1,39 @@
 <h1 class="title">TaskManager</h1>
 
-<h2 style="cursor: pointer" (click)="toggleNewTopic()">New Topic +</h2>
+<h2>
+  <button
+    type="button"
+    class="toggle"
+    (click)="toggleNewTopic()"
+    [attr.aria-expanded]="showNewTopicInput"
+    aria-controls="new-topic-section"
+  >
+    New Topic +
+  </button>
+</h2>
 @if (showNewTopicInput) {
-<input
-  type="text"
-  [(ngModel)]="newTopic"
-  (keydown.enter)="addTopic(newTopic); newTopic = ''"
-  aria-label="New topic name"
-  placeholder="Topic Name"
-/>
+<div id="new-topic-section">
+  <input
+    type="text"
+    [(ngModel)]="newTopic"
+    (keydown.enter)="addTopic(newTopic)"
+    aria-label="New topic name"
+    placeholder="Topic Name"
+  />
+</div>
 }
 
-<h2 (click)="toggleTopicsList()">Topics</h2>
+<h2>
+  <button
+    type="button"
+    class="toggle"
+    (click)="toggleTopicsList()"
+    [attr.aria-expanded]="showTopics"
+    aria-controls="topics-list"
+  >
+    Topics
+  </button>
+</h2>
 <input
   type="text"
   placeholder="Search Topics"
@@ -19,24 +41,28 @@
   aria-label="Search topics"
 />
 @if (showTopics) {
-<div class="topic-list">
+<ul class="topic-list" role="list" id="topics-list">
   @if (filteredTopics.length === 0) {
-  <p>No Topics Found</p>
+  <li role="listitem"><p>No Topics Found</p></li>
   } @for (topic of filteredTopics; track topic.id) {
-  <div
-    class="topic"
-    [class.selected]="topic.id === selectedTopic"
-    (click)="selectTopic(topic.id)"
-    [title]="topic.name"
-  >
-    {{ topic.name }}
-    <button
-      type="button"
-      (click)="$event.stopPropagation(); removeTopic(topic.id)"
+  <li role="listitem">
+    <div
+      class="topic"
+      [class.selected]="topic.id === selectedTopic"
+      [title]="topic.name"
     >
-      ✕
-    </button>
-  </div>
+      <button type="button" (click)="selectTopic(topic.id)">
+        {{ topic.name }}
+      </button>
+      <button
+        type="button"
+        (click)="$event.stopPropagation(); removeTopic(topic.id)"
+        [attr.aria-label]="'Remove topic ' + topic.name"
+      >
+        ✕
+      </button>
+    </div>
+  </li>
   }
-</div>
+</ul>
 }
